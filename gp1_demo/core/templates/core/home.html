@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EcoLens Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-teal-50 flex flex-col">
+
+    <header class="bg-white shadow-sm">
+        <div class="max-w-3xl mx-auto px-4 py-4">
+            <h1 class="text-xl font-semibold text-gray-800">
+                EcoLens Demo
+            </h1>
+        </div>
+    </header>
+
+    <main class="flex-1">
+        <div class="max-w-3xl mx-auto px-4 py-6">
+
+            <div class="bg-white rounded-xl shadow p-5 sm:p-6">
+
+                <h2 class="text-lg font-medium text-gray-800 mb-2">
+                    New Observation
+                </h2>
+                <p class="text-sm text-gray-600 mb-4">
+                    Upload a clear photo of a plant or insect
+                </p>
+
+                <form method="post" enctype="multipart/form-data" class="space-y-4">
+                    {% csrf_token %}
+
+                    <input 
+                        type="file" 
+                        name="image" 
+                        required
+                        class="block w-full text-sm text-gray-700
+                               file:mr-4 file:py-2 file:px-4
+                               file:rounded-lg file:border-0
+                               file:text-sm file:font-medium
+                               file:bg-gray-100 file:text-gray-700
+                               hover:file:bg-gray-200"
+                    >
+
+                    <button 
+                        type="submit"
+                        class="w-full sm:w-auto px-5 py-2.5 rounded-lg
+                               bg-gradient-to-r from-teal-500 to-cyan-500
+                               text-white text-sm font-bold
+                               hover:bg-green-700 transition
+                               "
+                    >
+                        Find Species
+                    </button>
+                </form>
+
+                {% if prediction %}
+                <div class="mt-6 border-t pt-5">
+                    <h3 class="text-base font-semibold text-gray-800 mb-2">
+                        Identification Result
+                    </h3>
+
+                    <p class="text-sm text-gray-700">
+                        <span class="font-medium">Species:</span> {{ prediction }}
+                    </p>
+                    <p class="text-sm text-gray-700 mb-3">
+                        <span class="font-medium">Confidence:</span> {{ confidence }}
+                    </p>
+
+                    <img 
+                        src="{{ image_url }}" 
+                        alt="Uploaded Image"
+                        class="w-full max-h-80 object-contain rounded-lg border"
+                    >
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t">
+        <div class="max-w-3xl mx-auto px-4 py-4">
+            <p class="text-xs text-gray-500 text-center">
+                Graduation Project I | EcoLens Demo
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
