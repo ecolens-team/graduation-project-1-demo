@@ -2,6 +2,8 @@
 torch
 torchvision
 open_clip_torch
+pybioclip
+
 pillow
 numpy
 huggingface_hub

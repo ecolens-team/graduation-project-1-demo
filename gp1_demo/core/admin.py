@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Observation
 
-# Register your models here.
+@admin.register(Observation)
+class ObservationAdmin(admin.ModelAdmin):
+    list_display = ('species_name', 'confidence', 'user', 'created_at')
+    list_filter = ('species_name', 'created_at')
