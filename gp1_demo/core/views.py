@@ -48,7 +48,7 @@ def load_or_compute_embeddings():
     if os.path.exists(CACHE_PATH):
         print(f"Found cached embeddings at {CACHE_PATH}...")
         try:
-            cached_data = torch.load(CACHE_PATH)
+            cached_data = torch.load(CACHE_PATH, weights_only=True)
             if cached_data.shape[1] == len(SPECIES_LABELS):
                 return cached_data.to(device)
             else:
