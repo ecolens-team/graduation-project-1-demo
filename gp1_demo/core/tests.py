@@ -1,13 +1,12 @@
 import pytest
-from django.test import Client, RequestFactory
-from django.core.files.uploadedfile import SimpleUploadedFile
-from unittest.mock import patch
-from .views import HomeView
+from django.test import Client
 
-# Check if Homepage Loads
+
 @pytest.mark.django_db
-def test_homepage_loads():
+def test_login_page_loads():
     client = Client()
-    response = client.get('/')
+    # Go directly to /login/
+    response = client.get('/login/')
+    
     assert response.status_code == 200
-    assert b"EcoLens Demo" in response.content
+    assert b"Username" in response.content
