@@ -10,3 +10,9 @@ def test_login_page_loads():
     
     assert response.status_code == 200
     assert b"Username" in response.content
+ @pytest.mark.django_db
+def test_home_page_loads():
+    client = Client()
+    response = client.get('/')
+    
+    assert response.status_code == 200
