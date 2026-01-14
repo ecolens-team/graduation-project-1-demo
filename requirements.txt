@@ -12,3 +12,4 @@ Django
 pytest
 pytest-django
 bandit
+ruff

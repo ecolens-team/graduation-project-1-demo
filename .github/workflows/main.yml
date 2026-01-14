@@ -1,6 +1,5 @@
 name: demo CI/CD Pipeline
 
-
 on:
   push:
     branches: [ "main" ]
@@ -8,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  quality-check:
+  functional-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -23,18 +22,35 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Run Functional Tests
+      - name: Run Pytest
         run: pytest gp1_demo/core/tests.py
 
-      - name: Run Security Scan
+  non-functional-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install bandit ruff
+
+      - name: Run Security Scan (Bandit)
         run: bandit -r . --exclude ./venv,./gp1_demo/core/tests.py -ll
 
+      - name: Run Linter (Ruff)
+        run: ruff check .
+
   docker-deploy:
-    needs: quality-check
+    needs: [functional-tests, non-functional-tests]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3

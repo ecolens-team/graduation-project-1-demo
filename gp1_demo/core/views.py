@@ -7,7 +7,6 @@ from django.shortcuts import render
 from django.views import View
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from core.models import Observation
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -61,7 +60,8 @@ def load_or_compute_embeddings():
     with torch.no_grad():
         all_features = []
         for i, species_name in enumerate(SPECIES_LABELS):
-            if i % 100 == 0: print(f"Processing {i}/{len(SPECIES_LABELS)}...")
+            if i % 100 == 0: 
+                print(f"Processing {i}/{len(SPECIES_LABELS)}...")
 
             texts = [template(species_name) for template in TEMPLATES]
             tokens = tokenizer(texts)
